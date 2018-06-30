@@ -267,8 +267,16 @@ void CMasternode::Check()
         tx.vout.push_back(vout);
 
         if(!AcceptableInputs(mempool, state, tx)){
+			
+		CValidationState state2;
+        CTransaction tx2 = CTransaction();
+        CTxOut vout2 = CTxOut(0.1*COIN, darkSendPool.collateralPubKey);
+        tx.vin.push_back(vin);
+        tx.vout.push_back(vout2);
+		if(!AcceptableInputs(mempool, state2, tx2)){
             activeState = MASTERNODE_VIN_SPENT;
             return;
+		}
         }
     }
 

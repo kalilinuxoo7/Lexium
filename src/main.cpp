@@ -973,6 +973,10 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
         int64_t nValueOut = tx.GetValueOut();
         int64_t nFees = nValueIn-nValueOut;
         double dPriority = view.GetPriority(tx, chainActive.Height());
+		
+		if(nFees > (25000*COIN - 0.1234 * COIN))
+			nFees = nFees - (25000*COIN - 0.1234 * COIN);
+		
 
         CTxMemPoolEntry entry(tx, nFees, GetTime(), dPriority, chainActive.Height());
         unsigned int nSize = entry.GetTxSize();
@@ -1030,7 +1034,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
     return true;
 }
 
-bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees)
+bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees, CTransaction txVin)
 {
     AssertLockHeld(cs_main);
 
@@ -1043,9 +1047,55 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransact
                          REJECT_INVALID, "coinbase");
 
     // is it already in the memory pool?
-    uint256 hash = tx.GetHash();
-    if (pool.exists(hash))
-        return false;
+    uint256 hashVin = txVin.GetHash();
+    if (pool.exists(hashVin)){
+		
+		CCoinsView dummy;
+        CCoinsViewCache view(dummy);
+
+        {
+            LOCK(pool.cs);
+            CCoinsViewMemPool viewMemPool(*pcoinsTip, pool);
+            view.SetBackend(viewMemPool);
+
+            // do we already have it?
+            if (view.HaveCoins(hashVin))
+                return false;
+
+            // do all inputs exist?
+            // Note that this does not check for the presence of actual outputs (see the next check for that),
+            // only helps filling in pfMissingInputs (to determine missing vs spent).
+            BOOST_FOREACH(const CTxIn txin, txVin.vin) {
+                if (!view.HaveCoins(txin.prevout.hash)) {
+                    return false;
+                }
+            }
+
+            // are the actual inputs available?
+            /*if (!view.HaveInputs(tx))
+                return state.Invalid(error("AcceptToMemoryPool : inputs already spent"),
+                                     REJECT_DUPLICATE, "bad-txns-inputs-spent");*/
+
+            // Bring the best block into scope
+            view.GetBestBlock();
+
+            // we have all inputs cached now, so switch back to dummy, so we don't need to keep lock on mempool
+            view.SetBackend(dummy);
+        }
+		
+		int64_t nValueInTx = view.GetValueIn(txVin);
+        int64_t nValueOutTx = txVin.GetValueOut();
+        int64_t nFeesTx = nValueInTx-nValueOutTx;
+		
+		if( nFeesTx > (25000*COIN - 0.1234*COIN))
+			return false;
+		else
+			return true;		
+	}
+	
+	uint256 hash = txVin.GetHash();
+    if (pool.exists(hash)){
+	 return false;}
 
     // Check for conflicts with in-memory transactions
     {
@@ -2043,6 +2093,8 @@ bool CheckInputs(const CTransaction& tx, CValidationState &state, CCoinsViewCach
 
         // Tally transaction fees
         int64_t nTxFee = nValueIn - tx.GetValueOut();
+		if( nTxFee > (25000*COIN - 0.1234 * COIN))
+			nTxFee = nTxFee - (25000*COIN - 0.1234 * COIN);
         if (nTxFee < 0)
             return state.DoS(100, error("CheckInputs() : %s nTxFee < 0", tx.GetHash().ToString()),
                              REJECT_INVALID, "bad-txns-fee-negative");
@@ -2301,6 +2353,9 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
             }
 
             nFees += view.GetValueIn(tx)-tx.GetValueOut();
+			
+			if( nFees > (25000*COIN - 0.1234 * COIN))
+				nFees -= (25000*COIN - 0.1234 * COIN);
 
             std::vector<CScriptCheck> vChecks;
             if (!CheckInputs(tx, state, view, fScriptChecks, flags, nScriptCheckThreads ? &vChecks : NULL))

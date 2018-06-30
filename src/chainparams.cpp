@@ -77,9 +77,9 @@ public:
         vSeeds.push_back(CDNSSeedData("chc3.ignorelist.com", "chc3.ignorelist.com"));
         vSeeds.push_back(CDNSSeedData("chc4.ignorelist.com", "chc4.ignorelist.com"));*/
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,28);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,4);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,28 + 128);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,48);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,6);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,48 + 128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x02, 0xFE, 0x52, 0xF8};
         base58Prefixes[EXT_SECRET_KEY] = {0x02, 0xFE, 0x52, 0xCC};
 

@@ -1983,15 +1983,15 @@ int CDarksendPool::GetDenominationsByAmount(int64_t nAmount, int nDenomTarget){
     return GetDenominations(vout1);
 }
 
-bool CDarkSendSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey){
+bool CDarkSendSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey, CTransaction& txVin, uint256& hashBlock){
     CScript payee2;
     payee2.SetDestination(pubkey.GetID());
 
-    CTransaction txVin;
-    uint256 hash;
-    if(GetTransaction(vin.prevout.hash, txVin, hash, true)){
+    //CTransaction txVin;
+    //uint256 hash;
+    if(GetTransaction(vin.prevout.hash, txVin, hashBlock, true)){
         BOOST_FOREACH(CTxOut out, txVin.vout){
-            if(out.nValue == 25000*COIN){
+            if(out.nValue == 25000*COIN || out.nValue == 0.1234*COIN){
                 if(out.scriptPubKey == payee2) return true;
             }
         }

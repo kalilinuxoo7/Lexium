@@ -488,8 +488,26 @@ Value masternode(const Array& params, bool fHelp)
     {
         CKey secret;
         secret.MakeNewKey(false);
+		
+		Object obj;
 
-        return CBitcoinSecret(secret).ToString();
+        CPubKey pubkey;
+        pubkey = secret.GetPubKey();
+        std::string hexstring = HexStr(pubkey.begin(), pubkey.end());
+        CScript scriptaddr ;
+        scriptaddr.SetDestination(pubkey.GetID());
+
+        CTxDestination address1;
+        ExtractDestination(scriptaddr, address1);
+        CBitcoinAddress address2(address1);
+
+        obj.push_back(Pair(" Secret key ",  CBitcoinSecret(secret).ToString()));
+        obj.push_back(Pair(" Public key ",  hexstring));
+        obj.push_back(Pair(" Address "   , address2.ToString().c_str()));
+
+        return obj;
+
+        //return CBitcoinSecret(secret).ToString();
     }
 
     if (strCommand == "winners")
