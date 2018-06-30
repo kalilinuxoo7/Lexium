@@ -29,10 +29,10 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Chaincoin-Qt</string>
+  <string>Lexium-Qt</string>
 
   <key>CFBundleIdentifier</key>
-  <string>org.chaincoin.Chaincoin-Qt</string>
+  <string>org.lexium.Lexium-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -40,10 +40,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>io.chaincoin.DarkcoinPayment</string>
+      <string>io.lexium.DarkcoinPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>chaincoin</string>
+        <string>lexium</string>
       </array>
     </dict>
   </array>
@@ -52,9 +52,9 @@
   <array>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>io.chaincoin.paymentrequest</string>
+      <string>io.lexium.paymentrequest</string>
       <key>UTTypeDescription</key>
-      <string>Chaincoin payment request</string>
+      <string>Lexium payment request</string>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.data</string>
@@ -62,10 +62,10 @@
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.mime-type</key>
-        <string>application/x-chaincoin-payment-request</string>
+        <string>application/x-lexium-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>chaincoinpaymentrequest</string>
+          <string>lexiumpaymentrequest</string>
         </array>
       </dict>
     </dict>
@@ -78,7 +78,7 @@
       <string>Editor</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>io.chaincoin.paymentrequest</string>
+        <string>io.lexium.paymentrequest</string>
       </array>
       <key>LSHandlerRank</key>
       <string>Owner</string>

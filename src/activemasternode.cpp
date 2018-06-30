@@ -108,7 +108,7 @@ void CActiveMasternode::ManageStatus()
                 return;
             }
 
-            /* donations are not supported in chaincoin.conf */
+            /* donations are not supported in lexium.conf */
             CScript donationAddress = CScript();
             int donationPercentage = 0;
 
@@ -406,7 +406,7 @@ vector<COutput> CActiveMasternode::SelectCoinsMasternode()
     // Filter
     BOOST_FOREACH(const COutput& out, vCoins)
     {
-        if(out.tx->vout[out.i].nValue == 1000*COIN) { //exactly
+        if(out.tx->vout[out.i].nValue == 25000*COIN) { //exactly
             filteredCoins.push_back(out);
         }
     }

@@ -11,7 +11,7 @@
 
 #include "chainparams.h"
 
-/** Chaincoin unit definitions. Encapsulates parsing and formatting
+/** Lexium unit definitions. Encapsulates parsing and formatting
    and serves as list model for drop-down selection boxes.
 */
 class BitcoinUnits: public QAbstractListModel
@@ -21,14 +21,14 @@ class BitcoinUnits: public QAbstractListModel
 public:
     explicit BitcoinUnits(QObject *parent);
 
-    /** Chaincoin units.
+    /** Lexium units.
       @note Source: https://en.bitcoin.it/wiki/Units . Please add only sensible ones
      */
     enum Unit
     {
-        CHAINCOIN,
-        mCHAINCOIN,
-        uCHAINCOIN,
+        LEXIUM,
+        mLEXIUM,
+        uLEXIUM,
         chuffs
     };
 

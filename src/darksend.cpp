@@ -39,9 +39,9 @@ CActiveMasternode activeMasternode;
 int RequestedMasterNodeList = 0;
 
 /* *** BEGIN DARKSEND MAGIC - DASH **********
-    Copyright (c) 2014-2015, Chaincoin Developers
-        eduffield - evan@chaincoinpay.io
-        udjinm6   - udjinm6@chaincoinpay.io
+    Copyright (c) 2014-2015, Lexium Developers
+        eduffield - evan@lexiumpay.io
+        udjinm6   - udjinm6@lexiumpay.io
 */
 
 void CDarksendPool::ProcessMessageDarksend(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
@@ -798,7 +798,7 @@ void CDarksendPool::ChargeRandomFees(){
 
                 Being that Darksend has "no fees" we need to have some kind of cost associated
                 with using it to stop abuse. Otherwise it could serve as an attack vector and
-                allow endless transaction that would bloat Chaincoin and make it unusable. To
+                allow endless transaction that would bloat Lexium and make it unusable. To
                 stop these kinds of attacks 1 in 10 successful transactions are charged. This
                 adds up to a cost of 0.001DRK per transaction on average.
             */
@@ -1991,7 +1991,7 @@ bool CDarkSendSigner::IsVinAssociatedWithPubkey(CTxIn& vin, CPubKey& pubkey){
     uint256 hash;
     if(GetTransaction(vin.prevout.hash, txVin, hash, true)){
         BOOST_FOREACH(CTxOut out, txVin.vout){
-            if(out.nValue == 1000*COIN){
+            if(out.nValue == 25000*COIN){
                 if(out.scriptPubKey == payee2) return true;
             }
         }
@@ -2167,7 +2167,7 @@ void ThreadCheckDarkSendPool()
     if(fLiteMode) return; //disable all Darksend/Masternode related functionality
 
     // Make this thread recognisable as the wallet flushing thread
-    RenameThread("chaincoin-darksend");
+    RenameThread("lexium-darksend");
 
     unsigned int c = 0;
     std::string errorMessage;

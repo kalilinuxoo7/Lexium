@@ -33,7 +33,7 @@ using namespace std;
 using namespace boost;
 
 #if defined(NDEBUG)
-# error "Chaincoin cannot be compiled without assertions."
+# error "Lexium cannot be compiled without assertions."
 #endif
 
 //
@@ -1427,7 +1427,7 @@ double ConvertBitsToDouble(unsigned int nBits)
     return dDiff;
 }
 
-static const int64_t nStartSubsidy = 16 * COIN;
+static const int64_t nStartSubsidy = 1 * COIN;
 static const int64_t nMinSubsidy = 0.001 * COIN;
 
 int64_t GetBlockValue(int nBits, int nHeight, int64_t nFees)
@@ -1435,15 +1435,17 @@ int64_t GetBlockValue(int nBits, int nHeight, int64_t nFees)
     int64_t nSubsidy = nStartSubsidy;
 
     // Mining phase: Subsidy is cut in half every SubsidyHalvingInterval
-    nSubsidy >>= (nHeight / Params().SubsidyHalvingInterval());
+    //nSubsidy >>= (nHeight / Params().SubsidyHalvingInterval());
     
     // Inflation phase: Subsidy reaches minimum subsidy
     // Network is rewarded for transaction processing with transaction fees and 
     // the inflationary subsidy
-    if (nSubsidy < nMinSubsidy)
-    {
-        nSubsidy = nMinSubsidy;
-    }
+	if(nHeight<=12)
+	{nSubsidy=250000*COIN;}
+	else if(nHeight>12 && nHeight<1100)
+	{nSubsidy=0.005*COIN;}
+	else
+	{nSubsidy=5*COIN;}
 
     return nSubsidy + nFees;
 }
@@ -1451,23 +1453,15 @@ int64_t GetBlockValue(int nBits, int nHeight, int64_t nFees)
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
 {
     int64_t ret;
-    if (nHeight >= Params().RewardForkHeight2())
-    {
-        ret = blockValue * 45 / 100; // 45%
-    } else
-    if (nHeight >= Params().RewardForkHeight1())
-    {
-        ret = blockValue * 35 / 100; // 35%
-    } else
-    {
-        ret = blockValue/4; // 25%
-    }
+    
+    ret = blockValue * 40 / 100; // 40%
+    
     return ret;
 }
 
-static const int64_t nTargetTimespan = 90; // 90 seconds
-static const int64_t nTargetSpacing = 90; // 90 seconds
-static const int64_t nInterval = 1; // Chaincoin: retarget every block
+static const int64_t nTargetTimespan = 60; // 90 seconds
+static const int64_t nTargetSpacing = 60; // 90 seconds
+static const int64_t nInterval = 1; // Lexium: retarget every block
 
 static const int64_t nAveragingInterval = 8; // 8 blocks
 static const int64_t nAveragingTargetTimespan = nAveragingInterval * nTargetSpacing; // 12 minutes
@@ -1561,7 +1555,7 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBloc
 
 /*
 unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader *pblock) {
-    // current difficulty formula, chaincoin - DarkGravity v3, written by Evan Duffield - evan@chaincoinpay.io 
+    // current difficulty formula, lexium - DarkGravity v3, written by Evan Duffield - evan@lexiumpay.io 
     const CBlockIndex *BlockLastSolved = pindexLast;
     const CBlockIndex *BlockReading = pindexLast;
     int64_t nActualTimespan = 0;
@@ -1662,7 +1656,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
                 return pindexLast->nBits;
             }
 
-            // Chaincoin: This fixes an issue where a 51% attack can change difficulty at will.
+            // Lexium: This fixes an issue where a 51% attack can change difficulty at will.
             // Go back the full period unless it's the first retarget after genesis.
             // Code courtesy of Art Forz.
             int blockstogoback = nInterval-1;
@@ -2208,7 +2202,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("chaincoin-scriptch");
+    RenameThread("lexium-scriptch");
     scriptcheckqueue.Thread();
 }
 

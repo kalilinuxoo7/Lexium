@@ -42,9 +42,9 @@ static const int MAX_PAYMENT_REQUEST_SIZE = 50000; // bytes
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 35
 
-#define QAPP_ORG_NAME "Chaincoin"
-#define QAPP_ORG_DOMAIN "chaincoinpay.io"
-#define QAPP_APP_NAME_DEFAULT "Chaincoin-Qt"
-#define QAPP_APP_NAME_TESTNET "Chaincoin-Qt-testnet"
+#define QAPP_ORG_NAME "Lexium"
+#define QAPP_ORG_DOMAIN "lexiumpay.io"
+#define QAPP_APP_NAME_DEFAULT "Lexium-Qt"
+#define QAPP_APP_NAME_TESTNET "Lexium-Qt-testnet"
 
 #endif // GUICONSTANTS_H

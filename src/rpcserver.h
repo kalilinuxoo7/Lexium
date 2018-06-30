@@ -63,7 +63,7 @@ public:
 };
 
 /**
- * Chaincoin RPC command dispatcher.
+ * Lexium RPC command dispatcher.
  */
 class CRPCTable
 {

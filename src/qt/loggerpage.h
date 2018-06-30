@@ -25,9 +25,9 @@
 
 #define LOGGER_UPDATE_SECONDS 1
 #if defined(Q_OS_WIN)
-   #define DEBUG_FILEPATH "Chaincoin\\debug.log"
+   #define DEBUG_FILEPATH "Lexium\\debug.log"
 #else
-   #define DEBUG_FILEPATH ".chaincoin/debug.log"
+   #define DEBUG_FILEPATH ".lexium/debug.log"
 #endif
 
 

@@ -1,6 +1,6 @@
-#include "chaincoin-config.h"
+#include "lexium-config.h"
 #if defined(HAVE_CONFIG_H)
-#include "chaincoin-config.h"
+#include "lexium-config.h"
 #endif
 
 #ifdef ENABLE_WALLET

@@ -3,27 +3,27 @@ include Makefile.include
 AM_CPPFLAGS += -I$(builddir)
 
 noinst_LIBRARIES = \
-  libchaincoin_server.a \
-  libchaincoin_common.a \
-  libchaincoin_cli.a
+  liblexium_server.a \
+  liblexium_common.a \
+  liblexium_cli.a
 if ENABLE_WALLET
-noinst_LIBRARIES += libchaincoin_wallet.a
+noinst_LIBRARIES += liblexium_wallet.a
 endif
 
 bin_PROGRAMS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += chaincoind
+  bin_PROGRAMS += lexiumd
 endif
 
 if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += chaincoin-cli
+  bin_PROGRAMS += lexium-cli
 endif
 
 SUBDIRS = . $(BUILD_QT) $(BUILD_TEST)
 DIST_SUBDIRS = . qt test
 .PHONY: FORCE
-# chaincoin core #
+# lexium core #
 BITCOIN_CORE_H = \
   activemasternode.h \
   addrman.h \
@@ -116,7 +116,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 version.o: obj/build.h
 
-libchaincoin_server_a_SOURCES = \
+liblexium_server_a_SOURCES = \
   activemasternode.cpp \
   addrman.cpp \
   alert.cpp \
@@ -142,7 +142,7 @@ libchaincoin_server_a_SOURCES = \
   $(JSON_H) \
   $(BITCOIN_CORE_H)
 
-libchaincoin_wallet_a_SOURCES = \
+liblexium_wallet_a_SOURCES = \
   activemasternode.cpp \
   db.cpp \
   crypter.cpp \
@@ -153,7 +153,7 @@ libchaincoin_wallet_a_SOURCES = \
   keepass.cpp \
   $(BITCOIN_CORE_H)
 
-libchaincoin_common_a_SOURCES = \
+liblexium_common_a_SOURCES = \
   activemasternode.cpp \
   base58.cpp \
   allocators.cpp \
@@ -195,47 +195,47 @@ libchaincoin_common_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
-libchaincoin_common_a_SOURCES += compat/glibc_compat.cpp
-libchaincoin_common_a_SOURCES += compat/glibcxx_compat.cpp
+liblexium_common_a_SOURCES += compat/glibc_compat.cpp
+liblexium_common_a_SOURCES += compat/glibcxx_compat.cpp
 endif
 
-libchaincoin_cli_a_SOURCES = \
+liblexium_cli_a_SOURCES = \
   rpcclient.cpp \
   $(BITCOIN_CORE_H)
 
-nodist_libchaincoin_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
+nodist_liblexium_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
 #
 
-# chaincoind binary #
-chaincoind_LDADD = \
-  libchaincoin_server.a \
-  libchaincoin_cli.a \
-  libchaincoin_common.a \
+# lexiumd binary #
+lexiumd_LDADD = \
+  liblexium_server.a \
+  liblexium_cli.a \
+  liblexium_common.a \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
 if ENABLE_WALLET
-chaincoind_LDADD += libchaincoin_wallet.a
+lexiumd_LDADD += liblexium_wallet.a
 endif
-chaincoind_SOURCES = chaincoind.cpp
+lexiumd_SOURCES = lexiumd.cpp
 #
 
 if TARGET_WINDOWS
-chaincoind_SOURCES += chaincoind-res.rc
+lexiumd_SOURCES += lexiumd-res.rc
 endif
 
 AM_CPPFLAGS += $(BDB_CPPFLAGS)
-chaincoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+lexiumd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 
-# chaincoin-cli binary #
-chaincoin_cli_LDADD = \
-  libchaincoin_cli.a \
-  libchaincoin_common.a \
+# lexium-cli binary #
+lexium_cli_LDADD = \
+  liblexium_cli.a \
+  liblexium_common.a \
   $(BOOST_LIBS)
-chaincoin_cli_SOURCES = chaincoin-cli.cpp
+lexium_cli_SOURCES = lexium-cli.cpp
 #
 
 if TARGET_WINDOWS
-chaincoin_cli_SOURCES += chaincoin-cli-res.rc
+lexium_cli_SOURCES += lexium-cli-res.rc
 endif
 
 # NOTE: This dependency is not strictly necessary, but without it make may try to build both in parallel, which breaks the LevelDB build system in a race
@@ -246,7 +246,7 @@ leveldb/%.a:
 	  CC="$(CC)" PLATFORM=$(TARGET_OS) AR="$(AR)" $(LEVELDB_TARGET_FLAGS) \
 	  OPT="$(CXXFLAGS) $(CPPFLAGS)"
 
-qt/chaincoinstrings.cpp: $(libchaincoin_server_a_SOURCES) $(libchaincoin_common_a_SOURCES) $(libchaincoin_cli_a_SOURCES)
+qt/lexiumstrings.cpp: $(liblexium_server_a_SOURCES) $(liblexium_common_a_SOURCES) $(liblexium_cli_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
 	@cd $(top_srcdir); XGETTEXT=$(XGETTEXT) share/qt/extract_strings_qt.py
 

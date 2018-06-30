@@ -31,9 +31,9 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
     ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
 #endif
 
-    // normal chaincoin address field
+    // normal lexium address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
-    // just a label for displaying chaincoin address(es)
+    // just a label for displaying lexium address(es)
     ui->payTo_is->setFont(GUIUtil::bitcoinAddressFont());
 }
 

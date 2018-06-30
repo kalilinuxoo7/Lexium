@@ -30,13 +30,13 @@ public:
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
-        pchMessageStart[0] = 0xa3;
-        pchMessageStart[1] = 0xd2;
-        pchMessageStart[2] = 0x7a;
-        pchMessageStart[3] = 0x03;
+        pchMessageStart[0] = 0xa1;
+        pchMessageStart[1] = 0xd4;
+        pchMessageStart[2] = 0xc3;
+        pchMessageStart[3] = 0xb2;
         vAlertPubKey = ParseHex("04c5788ca1e268a7474763fa965210b6fa6b04a45f52d21056c62fb19a2de991aa15aa1d1c516f34d2a0016f51a87959c89f51a148db30c839f71bc525dde8c480");
-        nDefaultPort = 11994;
-        nRPCPort = 11995;
+        nDefaultPort = 11884;
+        nRPCPort = 11885;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 20);
         nSubsidyHalvingInterval = 700800; // 2 years
         nMasternodePortForkHeight = 1246400 - 1000; // ~end sep 2017
@@ -64,18 +64,18 @@ public:
         assert(hashGenesisBlock == uint256("0x00000f639db5734b2b861ef8dbccc33aebd7de44d13de000a12d093bcc866c64"));
         assert(genesis.hashMerkleRoot == uint256("0xfa6ef9872494fa9662cf0fecf8c0135a6932e76d7a8764e1155207f3205c7c88"));
 
-        vSeeds.push_back(CDNSSeedData("seed1.chaincoin.org", "seed1.chaincoin.org"));
-        vSeeds.push_back(CDNSSeedData("seed2.chaincoin.org", "seed2.chaincoin.org"));
-        vSeeds.push_back(CDNSSeedData("seed3.chaincoin.org", "seed3.chaincoin.org"));
-        vSeeds.push_back(CDNSSeedData("seed4.chaincoin.org", "seed4.chaincoin.org"));
-        vSeeds.push_back(CDNSSeedData("seed5.chaincoin.org", "seed5.chaincoin.org"));
-        vSeeds.push_back(CDNSSeedData("seed6.chaincoin.org", "seed6.chaincoin.org"));
-        vSeeds.push_back(CDNSSeedData("seed7.chaincoin.org", "seed7.chaincoin.org"));
-        vSeeds.push_back(CDNSSeedData("seed8.chaincoin.org", "seed8.chaincoin.org"));
+        vSeeds.push_back(CDNSSeedData("167.99.234.230", "167.99.234.230"));
+        /*vSeeds.push_back(CDNSSeedData("seed2.lexium.org", "seed2.lexium.org"));
+        vSeeds.push_back(CDNSSeedData("seed3.lexium.org", "seed3.lexium.org"));
+        vSeeds.push_back(CDNSSeedData("seed4.lexium.org", "seed4.lexium.org"));
+        vSeeds.push_back(CDNSSeedData("seed5.lexium.org", "seed5.lexium.org"));
+        vSeeds.push_back(CDNSSeedData("seed6.lexium.org", "seed6.lexium.org"));
+        vSeeds.push_back(CDNSSeedData("seed7.lexium.org", "seed7.lexium.org"));
+        vSeeds.push_back(CDNSSeedData("seed8.lexium.org", "seed8.lexium.org"));
         vSeeds.push_back(CDNSSeedData("chc1.ignorelist.com", "chc1.ignorelist.com"));
         vSeeds.push_back(CDNSSeedData("chc2.ignorelist.com", "chc2.ignorelist.com"));
         vSeeds.push_back(CDNSSeedData("chc3.ignorelist.com", "chc3.ignorelist.com"));
-        vSeeds.push_back(CDNSSeedData("chc4.ignorelist.com", "chc4.ignorelist.com"));
+        vSeeds.push_back(CDNSSeedData("chc4.ignorelist.com", "chc4.ignorelist.com"));*/
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,28);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,4);

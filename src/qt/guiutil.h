@@ -112,7 +112,7 @@ namespace GUIUtil
     // Open debug.log
     void openDebugLogfile();
 	
-    // Open chaincoin.conf
+    // Open lexium.conf
     void openConfigfile();	
     
     // Browse backup folder

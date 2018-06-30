@@ -16,9 +16,9 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(CHAINCOIN);
-    unitlist.append(mCHAINCOIN);
-    unitlist.append(uCHAINCOIN);
+    unitlist.append(LEXIUM);
+    unitlist.append(mLEXIUM);
+    unitlist.append(uLEXIUM);
     unitlist.append(chuffs);
     return unitlist;
 }
@@ -27,9 +27,9 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case CHAINCOIN:
-    case mCHAINCOIN:
-    case uCHAINCOIN:
+    case LEXIUM:
+    case mLEXIUM:
+    case uLEXIUM:
     case chuffs:
         return true;
     default:
@@ -43,9 +43,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case CHAINCOIN: return QString("CHC");
-            case mCHAINCOIN: return QString("mCHC");
-            case uCHAINCOIN: return QString::fromUtf8("μCHC");
+            case LEXIUM: return QString("LEX");
+            case mLEXIUM: return QString("mLEX");
+            case uLEXIUM: return QString::fromUtf8("μLEX");
             case chuffs: return QString::fromUtf8("chuffs");
             default: return QString("???");
         }
@@ -54,9 +54,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case CHAINCOIN: return QString("tCHC");
-            case mCHAINCOIN: return QString("mtCHC");
-            case uCHAINCOIN: return QString::fromUtf8("μtCHC");
+            case LEXIUM: return QString("tLEX");
+            case mLEXIUM: return QString("mtLEX");
+            case uLEXIUM: return QString::fromUtf8("μtLEX");
             case chuffs: return QString::fromUtf8("tchuffs");
             default: return QString("???");
         }
@@ -69,10 +69,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case CHAINCOIN: return QString("Chaincoin");
-            case mCHAINCOIN: return QString("Milli-Chaincoin (1 / 1,000)");
-            case uCHAINCOIN: return QString("Micro-Chaincoin (1 / 1,000,000)");
-            case chuffs: return QString("Ten Nano-Chaincoin (1 / 100,000,000)");
+            case LEXIUM: return QString("Lexium");
+            case mLEXIUM: return QString("Milli-Lexium (1 / 1,000)");
+            case uLEXIUM: return QString("Micro-Lexium (1 / 1,000,000)");
+            case chuffs: return QString("Ten Nano-Lexium (1 / 100,000,000)");
             default: return QString("???");
         }
     }
@@ -80,10 +80,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case CHAINCOIN: return QString("TestChaincoins");
-            case mCHAINCOIN: return QString("Milli-TestChaincoin (1 / 1,000)");
-            case uCHAINCOIN: return QString("Micro-TestChaincoin (1 / 1,000,000)");
-            case chuffs: return QString("Ten Nano-TestChaincoin (1 / 100,000,000)");
+            case LEXIUM: return QString("TestLexiums");
+            case mLEXIUM: return QString("Milli-TestLexium (1 / 1,000)");
+            case uLEXIUM: return QString("Micro-TestLexium (1 / 1,000,000)");
+            case chuffs: return QString("Ten Nano-TestLexium (1 / 100,000,000)");
             default: return QString("???");
         }
     }
@@ -93,9 +93,9 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case CHAINCOIN:  return 100000000;
-    case mCHAINCOIN: return 100000;
-    case uCHAINCOIN: return 100;
+    case LEXIUM:  return 100000000;
+    case mLEXIUM: return 100000;
+    case uLEXIUM: return 100;
     case chuffs: return 1;
     default:   return 100000000;
     }
@@ -105,9 +105,9 @@ qint64 BitcoinUnits::maxAmount(int unit)
 {
     switch(unit)
     {
-    case CHAINCOIN:  return Q_INT64_C(21000000);
-    case mCHAINCOIN: return Q_INT64_C(21000000000);
-    case uCHAINCOIN: return Q_INT64_C(21000000000000);
+    case LEXIUM:  return Q_INT64_C(21000000);
+    case mLEXIUM: return Q_INT64_C(21000000000);
+    case uLEXIUM: return Q_INT64_C(21000000000000);
     case chuffs: return Q_INT64_C(2100000000000000);
     default:   return 0;
     }
@@ -117,9 +117,9 @@ int BitcoinUnits::amountDigits(int unit)
 {
     switch(unit)
     {
-    case CHAINCOIN: return 8; // 21,000,000 (# digits, without commas)
-    case mCHAINCOIN: return 11; // 21,000,000,000
-    case uCHAINCOIN: return 14; // 21,000,000,000,000
+    case LEXIUM: return 8; // 21,000,000 (# digits, without commas)
+    case mLEXIUM: return 11; // 21,000,000,000
+    case uLEXIUM: return 14; // 21,000,000,000,000
     case chuffs: return 16; // 2,100,000,000,000,000
     default: return 0;
     }
@@ -129,9 +129,9 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case CHAINCOIN: return 8;
-    case mCHAINCOIN: return 5;
-    case uCHAINCOIN: return 2;
+    case LEXIUM: return 8;
+    case mLEXIUM: return 5;
+    case uLEXIUM: return 2;
     case chuffs: return 0;
     default: return 0;
     }

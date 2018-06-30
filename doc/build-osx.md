@@ -1,6 +1,6 @@
 Mac OS X Build Instructions and Notes
 ====================================
-This guide will show you how to build chaincoind(headless client) for OSX.
+This guide will show you how to build lexiumd(headless client) for OSX.
 
 Notes
 -----
@@ -73,19 +73,19 @@ These rest of these commands are run inside brew interactive mode:
 /private/tmp/berkeley-db4-UGpd0O $ exit
 ```
 
-After exiting, you'll get a warning that the install is keg-only, which means it wasn't symlinked to `/usr/local`.  You don't need it to link it to build chaincoin, but if you want to, here's how:
+After exiting, you'll get a warning that the install is keg-only, which means it wasn't symlinked to `/usr/local`.  You don't need it to link it to build lexium, but if you want to, here's how:
 
     $ brew --force link berkeley-db4
 
 
-### Building `chaincoind`
+### Building `lexiumd`
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone https://github.com/chaincoin/chaincoin.git
-        cd chaincoin
+        git clone https://github.com/lexium/lexium.git
+        cd lexium
 
-2.  Build chaincoind:
+2.  Build lexiumd:
 
         ./autogen.sh
         ./configure
@@ -97,11 +97,11 @@ After exiting, you'll get a warning that the install is keg-only, which means it
 
 Creating a release build
 ------------------------
-You can ignore this section if you are building `chaincoind` for your own use.
+You can ignore this section if you are building `lexiumd` for your own use.
 
-chaincoind/chaincoin-cli binaries are not included in the Chaincoin-Qt.app bundle.
+lexiumd/lexium-cli binaries are not included in the Lexium-Qt.app bundle.
 
-If you are building `chaincoind` or `Chaincoin-Qt` for others, your build machine should be set up
+If you are building `lexiumd` or `Lexium-Qt` for others, your build machine should be set up
 as follows for maximum compatibility:
 
 All dependencies should be compiled with these flags:
@@ -110,29 +110,29 @@ All dependencies should be compiled with these flags:
  -arch x86_64
  -isysroot $(xcode-select --print-path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk
 
-Once dependencies are compiled, see release-process.md for how the Chaincoin-Qt.app
+Once dependencies are compiled, see release-process.md for how the Lexium-Qt.app
 bundle is packaged and signed to create the .dmg disk image that is distributed.
 
 Running
 -------
 
-It's now available at `./chaincoind`, provided that you are still in the `src`
+It's now available at `./lexiumd`, provided that you are still in the `src`
 directory. We have to first create the RPC configuration file, though.
 
-Run `./chaincoind` to get the filename where it should be put, or just try these
+Run `./lexiumd` to get the filename where it should be put, or just try these
 commands:
 
-    echo -e "rpcuser=chaincoinrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Chaincoin/chaincoin.conf"
-    chmod 600 "/Users/${USER}/Library/Application Support/Chaincoin/chaincoin.conf"
+    echo -e "rpcuser=lexiumrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Lexium/lexium.conf"
+    chmod 600 "/Users/${USER}/Library/Application Support/Lexium/lexium.conf"
 
 When next you run it, it will start downloading the blockchain, but it won't
 output anything while it's doing this. This process may take several hours;
 you can monitor its process by looking at the debug.log file, like this:
 
-    tail -f $HOME/Library/Application\ Support/Chaincoin/debug.log
+    tail -f $HOME/Library/Application\ Support/Lexium/debug.log
 
 Other commands:
 
-    ./chaincoind -daemon # to start the Chaincoin daemon.
-    ./chaincoin-cli --help  # for a list of command-line options.
-    ./chaincoin-cli help    # When the daemon is running, to get a list of RPC commands
+    ./lexiumd -daemon # to start the Lexium daemon.
+    ./lexium-cli --help  # for a list of command-line options.
+    ./lexium-cli help    # When the daemon is running, to get a list of RPC commands

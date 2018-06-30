@@ -72,11 +72,11 @@ MSYS shell:
 	mkdir miniupnpc
 	cp *.h miniupnpc/
 
-Chaincoin
+Lexium
 -------
 MSYS shell:
 
-	cd \chaincoin
+	cd \lexium
 	sh autogen.sh
 	sh configure
 	mingw32-make
