@@ -1093,7 +1093,7 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransact
 			return true;		
 	}
 	
-	uint256 hash = txVin.GetHash();
+	uint256 hash = tx.GetHash();
     if (pool.exists(hash)){
 	 return false;}
 
@@ -1776,6 +1776,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 {
     unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
 
+	return nProofOfWorkLimit;
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
