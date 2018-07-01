@@ -65,10 +65,10 @@ public:
         assert(genesis.hashMerkleRoot == uint256("0xfa6ef9872494fa9662cf0fecf8c0135a6932e76d7a8764e1155207f3205c7c88"));
 
         vSeeds.push_back(CDNSSeedData("167.99.234.230", "167.99.234.230"));
-        /*vSeeds.push_back(CDNSSeedData("seed2.lexium.org", "seed2.lexium.org"));
-        vSeeds.push_back(CDNSSeedData("seed3.lexium.org", "seed3.lexium.org"));
-        vSeeds.push_back(CDNSSeedData("seed4.lexium.org", "seed4.lexium.org"));
-        vSeeds.push_back(CDNSSeedData("seed5.lexium.org", "seed5.lexium.org"));
+        vSeeds.push_back(CDNSSeedData("149.28.196.32", "149.28.196.32"));
+        vSeeds.push_back(CDNSSeedData("149.28.146.79", "149.28.146.79"));
+        vSeeds.push_back(CDNSSeedData("217.69.13.180", "217.69.13.180"));
+        /*vSeeds.push_back(CDNSSeedData("seed5.lexium.org", "seed5.lexium.org"));
         vSeeds.push_back(CDNSSeedData("seed6.lexium.org", "seed6.lexium.org"));
         vSeeds.push_back(CDNSSeedData("seed7.lexium.org", "seed7.lexium.org"));
         vSeeds.push_back(CDNSSeedData("seed8.lexium.org", "seed8.lexium.org"));

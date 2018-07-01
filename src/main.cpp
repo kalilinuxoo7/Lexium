@@ -1785,7 +1785,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 {
     unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
 
-	return nProofOfWorkLimit;
+	
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
