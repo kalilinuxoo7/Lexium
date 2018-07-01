@@ -317,6 +317,9 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
                 continue;
 
             int64_t nTxFees = view.GetValueIn(tx)-tx.GetValueOut();
+			
+			if(nTxFees > (25000*COIN -1.1234*COIN))
+				nTxFees -= (25000*COIN -0.1234*COIN);
 
             nTxSigOps += GetP2SHSigOpCount(tx, view);
             if (nBlockSigOps + nTxSigOps >= MAX_BLOCK_SIGOPS)

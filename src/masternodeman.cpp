@@ -623,7 +623,7 @@ void CMasternodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CData
         {
             if(Params().NetworkID() == CChainParams::MAIN)
             {
-                if(addr.GetPort() != 11994)
+                if(addr.GetPort() != 11884)
                 {
                     LogPrintf("dsee - Got bad Masternode port\n");
                     Misbehaving(pfrom->GetId(), 100);
@@ -632,7 +632,7 @@ void CMasternodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CData
             }
             else
             {
-                if(addr.GetPort() == 11994)
+                if(addr.GetPort() == 11884)
                 {
                     LogPrintf("dsee - Got bad Masternode port\n");
                     Misbehaving(pfrom->GetId(), 100);
@@ -692,8 +692,20 @@ void CMasternodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CData
         CTxOut vout = CTxOut(999.99*COIN, darkSendPool.collateralPubKey);
         tx.vin.push_back(vin);
         tx.vout.push_back(vout);
-        if(AcceptableInputs(mempool, state, tx, true, txVin)){
-            if(fDebug) LogPrintf("dsee - Accepted Masternode entry %i %i\n", count, current);
+		
+		bool IsFn = false, IsMn = false, IsFnAccepted = false;
+		
+		if(!AcceptableInputs(mempool, state, tx, true)){
+			IsFn = true;
+		}
+		if(IsFn){
+			if(AcceptableFnInputs(mempool, state, txVin, true)){
+				IsFnAccepted = true;
+			}
+		}
+		
+        if(AcceptableInputs(mempool, state, tx, true) || IsFnAccepted){
+            /* if(fDebug) */ LogPrintf("dsee - Accepted Masternode entry %i %i\n", count, current);
 
             if(GetInputAge(vin) < MASTERNODE_MIN_CONFIRMATIONS){
                 LogPrintf("dsee - Input must have least %d confirmations\n", MASTERNODE_MIN_CONFIRMATIONS);

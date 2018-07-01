@@ -52,7 +52,7 @@ int nScriptCheckThreads = 0;
 bool fImporting = false;
 bool fReindex = false;
 bool fBenchmark = false;
-bool fTxIndex = false;
+bool fTxIndex = true;
 bool fLargeWorkForkFound = false;
 bool fLargeWorkInvalidChainFound = false;
 
@@ -1034,7 +1034,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
     return true;
 }
 
-bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees, CTransaction txVin)
+bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees)
 {
     AssertLockHeld(cs_main);
 
@@ -1046,53 +1046,8 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransact
         return state.DoS(100, error("AcceptToMemoryPool: : coinbase as individual tx"),
                          REJECT_INVALID, "coinbase");
 
-    // is it already in the memory pool?
-    uint256 hashVin = txVin.GetHash();
-    if (pool.exists(hashVin)){
-		
-		CCoinsView dummy;
-        CCoinsViewCache view(dummy);
-
-        {
-            LOCK(pool.cs);
-            CCoinsViewMemPool viewMemPool(*pcoinsTip, pool);
-            view.SetBackend(viewMemPool);
-
-            // do we already have it?
-            if (view.HaveCoins(hashVin))
-                return false;
-
-            // do all inputs exist?
-            // Note that this does not check for the presence of actual outputs (see the next check for that),
-            // only helps filling in pfMissingInputs (to determine missing vs spent).
-            BOOST_FOREACH(const CTxIn txin, txVin.vin) {
-                if (!view.HaveCoins(txin.prevout.hash)) {
-                    return false;
-                }
-            }
-
-            // are the actual inputs available?
-            /*if (!view.HaveInputs(tx))
-                return state.Invalid(error("AcceptToMemoryPool : inputs already spent"),
-                                     REJECT_DUPLICATE, "bad-txns-inputs-spent");*/
-
-            // Bring the best block into scope
-            view.GetBestBlock();
-
-            // we have all inputs cached now, so switch back to dummy, so we don't need to keep lock on mempool
-            view.SetBackend(dummy);
-        }
-		
-		int64_t nValueInTx = view.GetValueIn(txVin);
-        int64_t nValueOutTx = txVin.GetValueOut();
-        int64_t nFeesTx = nValueInTx-nValueOutTx;
-		
-		if( nFeesTx > (25000*COIN - 0.1234*COIN))
-			return false;
-		else
-			return true;		
-	}
 	
+	 {
 	uint256 hash = tx.GetHash();
     if (pool.exists(hash)){
 	 return false;}
@@ -1195,6 +1150,60 @@ bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransact
     }
 
     return true;
+	}
+}
+
+bool AcceptableFnInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees)
+{
+    AssertLockHeld(cs_main);
+
+    if (!CheckTransaction(tx, state))
+        return error("AcceptToMemoryPool: : CheckTransaction failed");
+
+    // Coinbase is only valid in a block, not as a loose transaction
+    if (tx.IsCoinBase())
+        return state.DoS(100, error("AcceptToMemoryPool: : coinbase as individual tx"),
+                         REJECT_INVALID, "coinbase");
+
+	
+	uint256 hash = tx.GetHash();
+	bool IsFn = false, missingTx = false;
+	CTransaction dummyTx;
+	
+	BOOST_FOREACH(CTxOut out, tx.vout){
+            if( out.nValue == 0.1234*COIN){
+                IsFn = true;
+            }
+    }
+	
+	if(IsFn){
+		int64_t nValueInTx =0 ;
+        int64_t nValueOutTx = tx.GetValueOut();
+            
+		//GetTransaction(tx.vin.prevout.hash, dummyTx, hashBlock, true);
+		BOOST_FOREACH(const CTxIn i, tx.vin){
+			
+			uint256 hashB;
+			//LogPrintf(" Tx prev hash = %s , and tx hash = %s \n", i.prevout.hash.ToString(), hash.ToString());
+			if(GetTransaction(i.prevout.hash, dummyTx, hashB, true)){
+				//nValueInTx += dummyTx.GetValueOut();
+				nValueInTx += dummyTx.vout[i.prevout.n].nValue;
+			} else{
+				missingTx = true;
+			}
+		}
+		LogPrintf(" nValueInTx =  %d \n ", nValueInTx);
+		int64_t nFeesTx = nValueInTx-nValueOutTx;
+		
+		if(nFeesTx < (25000*COIN - 1.1234* COIN ))
+			return false;
+		
+			
+		
+		
+	} 
+	
+	return true;
 }
 
 

@@ -52,13 +52,13 @@ bool CMasternodeConfig::read(std::string& strErr) {
         }
 
         if(Params().NetworkID() == CChainParams::MAIN){
-            if(CService(ip).GetPort() != 11994) {
-                strErr = "Invalid port detected in masternode.conf: " + line + " (must be 11994 for mainnet)";
+            if(CService(ip).GetPort() != 11884) {
+                strErr = "Invalid port detected in masternode.conf: " + line + " (must be 11884 for mainnet)";
                 streamConfig.close();
                 return false;
             }
-        } else if(CService(ip).GetPort() == 11994) {
-            strErr = "Invalid port detected in masternode.conf: " + line + " (11994 must be only on mainnet)";
+        } else if(CService(ip).GetPort() == 11884) {
+            strErr = "Invalid port detected in masternode.conf: " + line + " (11884 must be only on mainnet)";
             streamConfig.close();
             return false;
         }

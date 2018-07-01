@@ -259,7 +259,7 @@ void CMasternode::Check()
         return;
     }
 
-    if(!unitTest){
+   /* if(!unitTest){
         CValidationState state;
         CTransaction tx = CTransaction();
         CTxOut vout = CTxOut(999.99*COIN, darkSendPool.collateralPubKey);
@@ -278,7 +278,7 @@ void CMasternode::Check()
             return;
 		}
         }
-    }
+    }*/
 
     activeState = MASTERNODE_ENABLED; // OK
 }

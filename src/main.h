@@ -205,7 +205,8 @@ void Misbehaving(NodeId nodeid, int howmuch);
 bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool fLimitFree,
                         bool* pfMissingInputs, bool fRejectInsaneFee=false, bool ignoreFees=false);
 
-bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees=true, CTransaction txVin = CTransaction());
+bool AcceptableInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees=true);
+bool AcceptableFnInputs(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool ignoreFees=true);
 
 int GetInputAge(CTxIn& vin);
 
