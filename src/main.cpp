@@ -1501,7 +1501,7 @@ int64_t GetBlockValue(int nBits, int nHeight, int64_t nFees)
     // the inflationary subsidy
 	if(nHeight<=12)
 	{nSubsidy=250000*COIN;}
-	else if(nHeight==153)
+	else if(nHeight==163)
 	{nSubsidy=25000*COIN;}
 	else if(nHeight>12 && nHeight<1100)
 	{nSubsidy=0.005*COIN;}
